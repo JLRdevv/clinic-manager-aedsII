@@ -4,3 +4,8 @@ services:
     container_name: crow-container
     ports:
       - "8080:8080"
+    volumes:
+      - dados:/app/dados
+
+volumes:
+  dados:
