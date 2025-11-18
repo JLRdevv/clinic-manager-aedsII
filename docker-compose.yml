@@ -1,0 +1,6 @@
+services:
+  crow-app:
+    build: .
+    container_name: crow-container
+    ports:
+      - "8080:8080"
