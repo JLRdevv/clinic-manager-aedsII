@@ -1,6 +1,7 @@
 #pragma once
 #include "crow.h"
 #include "Validadacao.h"
+#include "PacientesService.h"
 
 class PacientesController {
 public:
@@ -26,8 +27,7 @@ public:
                     {"mensagem", "Erro de validação"}
                 });
             }
-
-            return crow::response(201, "placeholder");
+            return PacientesService::cadastrarPaciente(json);
         });
         
         //patch
