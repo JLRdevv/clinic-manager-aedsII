@@ -28,7 +28,7 @@ public:
                 return crow::response(400, crow::json::wvalue{
                     {"mensagem", "Corpo da requisição inválido"}
                 });
-            if (!ValidacaoPaciente::body(json)) {
+            if (!ValidacaoPaciente::bodyCadastro(json)) {
                 return crow::response(400, crow::json::wvalue{
                     {"mensagem", "Erro de validação"}
                 });
@@ -37,9 +37,19 @@ public:
         });
         
         //patch
-        CROW_BP_ROUTE(bp, "/").methods(crow::HTTPMethod::Patch)
-        ([](){
-            return crow::response(201, "placeholder");
+        CROW_BP_ROUTE(bp, "/<string>").methods(crow::HTTPMethod::Patch)
+        ([](const crow::request& req, std::string cpf){
+            auto json = crow::json::load(req.body);
+            if (!json)
+                return crow::response(400, crow::json::wvalue{
+                    {"mensagem", "Corpo da requisição inválido"}
+                });
+            if (!ValidacaoPaciente::bodyPatch(json)) {
+                return crow::response(400, crow::json::wvalue{
+                    {"mensagem", "Erro de validação"}
+                });
+            }
+            return PacientesService::alterarPaciente(cpf, json);
         });
 
         //del

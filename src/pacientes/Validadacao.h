@@ -23,7 +23,7 @@ private:
     }
 
 public:
-    static bool body(const crow::json::rvalue &json)
+    static bool bodyCadastro(const crow::json::rvalue &json)
     {
         auto campos = {"nome", "cpf", "nascimento", "telefone", "convenio"};
         for (auto campo : campos)
@@ -36,6 +36,26 @@ public:
         std::string tel = json["telefone"].s();
         std::string cpf = json["cpf"].s();
         if (!regexTelefoneECPF(tel) || !regexTelefoneECPF(cpf))
+            return false;
+        std::string data = json["nascimento"].s();
+        if (!regexData(data))
+            return false;
+
+        return true;
+    }
+
+    static bool bodyPatch(const crow::json::rvalue &json)
+    {
+        auto campos = {"nome", "nascimento", "telefone", "convenio"};
+        for (auto campo : campos)
+        {
+            if (!json.has(campo))
+                return false;
+            if (json[campo].t() != crow::json::type::String)
+                return false;
+        }
+        std::string tel = json["telefone"].s();
+        if (!regexTelefoneECPF(tel))
             return false;
         std::string data = json["nascimento"].s();
         if (!regexData(data))
