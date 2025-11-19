@@ -39,6 +39,14 @@ public:
             return AgendamentosService::buscaPorData(data);
         });
 
+        CROW_BP_ROUTE(bp, "/cpf").methods(crow::HTTPMethod::Get)
+        ([](const crow::request& req){
+            auto cpf = req.url_params.get("cpf");
+            if (!cpf)
+                return Resposta::badRequest("Parâmetro 'cpf' faltando");
+            return AgendamentosService::buscaPorCpf(cpf);
+        });
+
         return bp;
     }
 };

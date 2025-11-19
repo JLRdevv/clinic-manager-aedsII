@@ -118,3 +118,40 @@ crow::response AgendamentosService::buscaPorData(std::string data)
     crow::json::wvalue resposta = HelpersAgendamento::structVector2jsonArray(agendamentos);
     return Resposta::okJson(resposta);
 }
+
+crow::response AgendamentosService::buscaPorCpf(std::string cpf)
+{
+    std::ifstream file("/app/dados/agendamentos.txt");
+    if (!file.is_open())
+        return Resposta::internalServerError("Erro ao abrir arquivo");
+    std::string linha;
+    std::vector<HelpersAgendamento::Agendamento> agendamentos;
+
+    int linhas = 0;
+    while (std::getline(file, linha))
+    {
+        HelpersAgendamento::Agendamento a;
+        std::stringstream ss(linha);
+        std::string linhaId;
+
+        std::getline(ss, linhaId, ';');
+        std::getline(ss, a.cpf, ';');
+        std::getline(ss, a.data, ';');
+        std::getline(ss, a.horario, ';');
+        std::getline(ss, a.medico, ';');
+        std::getline(ss, a.especialidade, ';');
+        std::getline(ss, a.status, ';');
+        a.id = std::stoi(linhaId);
+        if (a.cpf == cpf)
+        {
+            agendamentos.push_back(a);
+            linhas++;
+        }
+    }
+    if (linhas == 0)
+        return Resposta::notFound("Nenhum agendamento encontrado para esse paciente");
+    file.close();
+
+    crow::json::wvalue resposta = HelpersAgendamento::structVector2jsonArray(agendamentos);
+    return Resposta::okJson(resposta);
+}
