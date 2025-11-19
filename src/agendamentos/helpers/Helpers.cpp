@@ -29,7 +29,8 @@ std::string HelpersAgendamento::structPcsv(const HelpersAgendamento::Agendamento
        << a.data << ";"
        << a.horario << ";"
        << a.medico << ";"
-       << a.especialidade << "\n";
+       << a.especialidade << ";"
+       << a.status << "\n";
     return ss.str();
 }
 
@@ -40,4 +41,18 @@ crow::response HelpersAgendamento::createdComId(const crow::json::rvalue &json, 
     }
     writeJson["id"] = id;
     return crow::response(201, writeJson);
+}
+
+crow::json::wvalue HelpersAgendamento::struct2json(const HelpersAgendamento::Agendamento &a)
+{
+    crow::json::wvalue json;
+    auto campos = {"id","cpf", "data", "horario", "medico", "especialidade", "status"};
+    json["id"] = a.id;
+    json["cpf"] = a.cpf;
+    json["data"] = a.data;
+    json["horario"] = a.horario;
+    json["medico"] = a.medico;
+    json["especialidade"] = a.especialidade;
+    json["status"] = a.status;
+    return json;
 }

@@ -13,10 +13,11 @@ public:
         std::string horario;
         std::string medico;
         std::string especialidade;
-        std::string status = "agendado";
+        std::string status = "Agendado";
     };
     static bool regexHorario(std::string horario);
     static Agendamento json2struct(const crow::json::rvalue &json, int id);
     static std::string structPcsv(const Agendamento &a);
     static crow::response createdComId(const crow::json::rvalue &json, int id);
+    static crow::json::wvalue struct2json(const Agendamento &a);
 };

@@ -18,7 +18,17 @@ public:
             }
             return AgendamentosService::criarAgendamento(json);
         });
+
+        CROW_BP_ROUTE(bp, "/finalizar/<int>").methods(crow::HTTPMethod::Get)
+        ([](int id){
+            return AgendamentosService::alterarStatus("Finalizado", id);
+        });
         
+        CROW_BP_ROUTE(bp, "/cancelar/<int>").methods(crow::HTTPMethod::Get)
+        ([](int id){
+            return AgendamentosService::alterarStatus("Cancelado", id);
+        });
+
         return bp;
     }
 };
