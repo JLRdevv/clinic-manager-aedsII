@@ -69,7 +69,17 @@ crow::response Resposta::ok(std::string mensagem)
     return crow::response(200, Helpers::json(mensagem));
 }
 
+crow::response Resposta::okJson(crow::json::wvalue json)
+{
+    return crow::response(200, json);
+}
+
 crow::response Resposta::created(std::string mensagem)
 {
     return crow::response(201, Helpers::json(mensagem));
+}
+
+crow::response Resposta::createdJson(crow::json::wvalue json)
+{
+    return crow::response(201, json);
 }

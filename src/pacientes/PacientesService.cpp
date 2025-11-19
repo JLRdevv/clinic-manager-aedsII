@@ -32,7 +32,7 @@ crow::response PacientesService::cadastrarPaciente(const crow::json::rvalue &bod
     file.seekp(0, std::ios::end);
     file << pacienteCsv;
     file.close(); 
-    return Resposta::created("Paciente cadastrado");
+    return Resposta::createdJson(body);
 }
 
 crow::response PacientesService::getPacientes()
@@ -73,7 +73,7 @@ crow::response PacientesService::getPacientes()
         resposta[i]["convenio"] = p.convenio;
     }
 
-    return crow::response(200, resposta);
+    return Resposta::okJson(resposta);
 }
 
 crow::response PacientesService::getPaciente(std::string cpf)
@@ -112,7 +112,7 @@ crow::response PacientesService::getPaciente(std::string cpf)
     resposta["telefone"] = paciente.telefone;
     resposta["convenio"] = paciente.convenio;
 
-    return crow::response(200, resposta);
+    return Resposta::okJson(resposta);
 }
 
 crow::response PacientesService::alterarPaciente(std::string cpf, const crow::json::rvalue &body)
@@ -155,7 +155,7 @@ crow::response PacientesService::alterarPaciente(std::string cpf, const crow::js
         fileSaida << lin;
 
     fileSaida.close();
-    return Resposta::ok("Paciente alterado");
+    return Resposta::okJson(body);
 }
 
 crow::response PacientesService::deletarPaciente(std::string cpf)
