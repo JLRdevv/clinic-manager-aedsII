@@ -5,7 +5,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - dados:/app/dados
-
-volumes:
-  dados:
+      - ./dados:/app/dados

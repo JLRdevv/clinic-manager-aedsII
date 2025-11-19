@@ -4,9 +4,28 @@
 
 crow::response AgendamentosService::criarAgendamento(crow::json::rvalue &body)
 {
-    std::fstream file("/app/dados/agendamentos.txt", std::ios::in | std::ios::out | std::ios::app);
+    std::ifstream pacientes("/app/dados/pacientes.txt");
+    if (!pacientes.is_open())
+        return Resposta::internalServerError("Erro ao abrir arquivo");
+
+        std::fstream file("/app/dados/agendamentos.txt", std::ios::in | std::ios::out | std::ios::app);
     if (!file.is_open())
         return Resposta::internalServerError("Erro ao abrir arquivo");
+
+    std::string linhaPaciente, _, cpf;
+    bool cpfValido = false;
+    while (std::getline(pacientes, linhaPaciente))
+    {
+        std::stringstream ss(linhaPaciente);
+
+        std::getline(ss, _, ';');
+        std::getline(ss, cpf, ';');
+
+        if (cpf == body["cpf"].s())
+            cpfValido = true;
+    }
+    if (!cpfValido)
+        return Resposta::forbidden("Paciente com esse cpf não existe");
 
     std::string linha, ultima, ultimoId = "0";
     int linhas = 0;
