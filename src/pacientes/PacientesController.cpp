@@ -1,5 +1,5 @@
-#include "helpers/Validacao.h"
-#include "helpers/Helpers.h"
+#include "helpers/ValidacaoPaciente.h"
+#include "helpers/HelpersPaciente.h"
 #include "PacientesService.h"
 #include "../helpers/Common.h"
 

@@ -1,6 +1,6 @@
-#include "Validacao.h"
+#include "ValidacaoAgendamento.h"
 #include "../../helpers/Common.h"
-#include "Helpers.h"
+#include "HelpersAgendamento.h"
 
 bool ValidacaoAgendamento::bodyCadastro(crow::json::rvalue &body)
 {
@@ -17,7 +17,7 @@ bool ValidacaoAgendamento::bodyCadastro(crow::json::rvalue &body)
     std::string data = body["data"].s();
     std::string horario = body["horario"].s();
 
-    if (!Common::regexTelefoneECPF(cpf) || !Common::regexData(data) || !Helpers::regexHorario(horario))
+    if (!Common::regexTelefoneECPF(cpf) || !Common::regexData(data) || !HelpersAgendamento::regexHorario(horario))
         return false;
     return true;
 }

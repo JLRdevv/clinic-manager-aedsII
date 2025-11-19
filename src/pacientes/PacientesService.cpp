@@ -1,12 +1,12 @@
 #include <fstream>
 #include <vector>
-#include "helpers/Helpers.h"
+#include "helpers/HelpersPaciente.h"
 #include "PacientesService.h"
 #include "../helpers/Common.h"
 
 crow::response PacientesService::cadastrarPaciente(const crow::json::rvalue &body)
 {
-    std::string pacienteCsv = Helpers::structPcsv(Helpers::json2struct(body, body["cpf"].s()));
+    std::string pacienteCsv = HelpersPaciente::structPcsv(HelpersPaciente::json2struct(body, body["cpf"].s()));
     std::fstream file("/app/dados/pacientes.txt", std::ios::in | std::ios::out | std::ios::app);
 
     if (!file.is_open())
@@ -42,12 +42,12 @@ crow::response PacientesService::getPacientes()
     if (!file.is_open())
         return Resposta::internalServerError("Erro ao abrir arquivo");
     std::string linha;
-    std::vector<Helpers::Paciente> pacientes;
+    std::vector<HelpersPaciente::Paciente> pacientes;
 
     int linhas = 0;
     while (std::getline(file, linha))
     {
-        Helpers::Paciente p;
+        HelpersPaciente::Paciente p;
         std::stringstream ss(linha);
 
         std::getline(ss, p.nome, ';');
@@ -84,11 +84,11 @@ crow::response PacientesService::getPaciente(std::string cpf)
         return Resposta::internalServerError("Erro ao abrir arquivo");
     std::string linha;
 
-    Helpers::Paciente paciente;
+    HelpersPaciente::Paciente paciente;
     bool encontrado = false;
     while (std::getline(file, linha))
     {
-        Helpers::Paciente p;
+        HelpersPaciente::Paciente p;
         std::stringstream ss(linha);
 
         std::getline(ss, p.nome, ';');
@@ -139,7 +139,7 @@ crow::response PacientesService::alterarPaciente(std::string cpf, const crow::js
         }
         else
         {
-            std::string pacienteCsv = Helpers::structPcsv(Helpers::json2struct(body, cpf));
+            std::string pacienteCsv = HelpersPaciente::structPcsv(HelpersPaciente::json2struct(body, cpf));
             linhas.push_back(pacienteCsv);
             encontrado = true;
         }

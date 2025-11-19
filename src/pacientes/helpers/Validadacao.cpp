@@ -1,5 +1,5 @@
-#include "Validacao.h"
-#include "Helpers.h"
+#include "ValidacaoPaciente.h"
+#include "HelpersPaciente.h"
 #include "../../helpers/Common.h"
 bool ValidacaoPaciente::bodyCadastro(const crow::json::rvalue &json)
 {

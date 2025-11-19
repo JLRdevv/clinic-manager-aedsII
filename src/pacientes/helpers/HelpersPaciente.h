@@ -1,7 +1,7 @@
 #pragma once
 #include "crow.h"
 
-class Helpers
+class HelpersPaciente
 {
 public:
     struct Paciente

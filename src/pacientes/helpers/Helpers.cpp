@@ -1,8 +1,8 @@
-#include "Helpers.h"
+#include "HelpersPaciente.h"
 #include "../../helpers/Common.h"
 #include <sstream>
 
-Helpers::Paciente Helpers::json2struct(const crow::json::rvalue &json, std::string cpf)
+HelpersPaciente::Paciente HelpersPaciente::json2struct(const crow::json::rvalue &json, std::string cpf)
 {
     Paciente p;
     p.nome = json["nome"].s();
@@ -13,7 +13,7 @@ Helpers::Paciente Helpers::json2struct(const crow::json::rvalue &json, std::stri
     return p;
 }
 
-std::string Helpers::structPcsv(const Helpers::Paciente &p)
+std::string HelpersPaciente::structPcsv(const HelpersPaciente::Paciente &p)
 {
     std::ostringstream ss;
     ss << p.nome << ";"

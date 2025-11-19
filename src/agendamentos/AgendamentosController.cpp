@@ -1,6 +1,7 @@
 #include "crow.h"
-#include "helpers/Validacao.h"
+#include "helpers/ValidacaoAgendamento.h"
 #include "../helpers/Common.h"
+#include "AgendamentosService.h"
 
 class AgendamentosController {
 public:
@@ -15,7 +16,7 @@ public:
             if (!ValidacaoAgendamento::bodyCadastro(json)) {
                 return Resposta::badRequest("Erro de validação");
             }
-            return crow::response(200, "teste");
+            return AgendamentosService::criarAgendamento(json);
         });
         
         return bp;
