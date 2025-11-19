@@ -1,3 +1,4 @@
+#pragma once
 #include "crow.h"
 
 class Common
