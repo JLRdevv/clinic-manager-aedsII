@@ -2,6 +2,7 @@
 #include <vector>
 #include "helpers/Helpers.h"
 #include "PacientesService.h"
+#include "../helpers/Common.h"
 
 crow::response PacientesService::cadastrarPaciente(const crow::json::rvalue &body)
 {

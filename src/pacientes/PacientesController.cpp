@@ -1,6 +1,7 @@
 #include "helpers/Validacao.h"
 #include "helpers/Helpers.h"
 #include "PacientesService.h"
+#include "../helpers/Common.h"
 
 class PacientesController {
 public:

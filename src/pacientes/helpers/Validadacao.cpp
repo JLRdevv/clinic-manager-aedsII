@@ -1,6 +1,6 @@
 #include "Validacao.h"
 #include "Helpers.h"
-
+#include "../../helpers/Common.h"
 bool ValidacaoPaciente::bodyCadastro(const crow::json::rvalue &json)
 {
     auto campos = {"nome", "cpf", "nascimento", "telefone", "convenio"};
@@ -14,11 +14,11 @@ bool ValidacaoPaciente::bodyCadastro(const crow::json::rvalue &json)
 
     std::string tel = json["telefone"].s();
     std::string cpf = json["cpf"].s();
-    if (!Helpers::regexTelefoneECPF(tel) || !Helpers::regexTelefoneECPF(cpf))
+    if (!Common::regexTelefoneECPF(tel) || !Common::regexTelefoneECPF(cpf))
         return false;
 
     std::string data = json["nascimento"].s();
-    if (!Helpers::regexData(data))
+    if (!Common::regexData(data))
         return false;
 
     return true;
@@ -36,11 +36,11 @@ bool ValidacaoPaciente::bodyPatch(const crow::json::rvalue &json)
     }
 
     std::string tel = json["telefone"].s();
-    if (!Helpers::regexTelefoneECPF(tel))
+    if (!Common::regexTelefoneECPF(tel))
         return false;
 
     std::string data = json["nascimento"].s();
-    if (!Helpers::regexData(data))
+    if (!Common::regexData(data))
         return false;
 
     return true;
