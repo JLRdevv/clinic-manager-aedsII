@@ -1,5 +1,5 @@
 #include "crow.h"
-#include "pacientes/PacientesController.h"
+#include "pacientes/PacientesController.cpp"
 
 int main() {
     crow::SimpleApp app;
