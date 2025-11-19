@@ -8,10 +8,10 @@ public:
     static crow::Blueprint& get_routes() {
         static crow::Blueprint bp("pacientes");
 
-        //get
-        CROW_BP_ROUTE(bp, "/<int>").methods(crow::HTTPMethod::Get)
-        ([](int id){
-            return crow::response(200, "placeholder");
+        //get todos
+        CROW_BP_ROUTE(bp, "/").methods(crow::HTTPMethod::Get)
+        ([](){
+            return PacientesService::getPacientes();
         });
 
         //post

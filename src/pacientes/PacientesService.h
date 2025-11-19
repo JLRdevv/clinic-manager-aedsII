@@ -1,6 +1,7 @@
 #pragma once
 #include "crow.h"
 #include <fstream>
+#include <vector>
 
 class PacientesService
 {
@@ -63,11 +64,53 @@ public:
         }
         if (linhas >= 100)
             return crow::response(403, crow::json::wvalue({{"mensagem", "Limite de 100 pacientes atingido"}}));
-            
+
         file.clear();
         file.seekp(0, std::ios::end);
         file << pacienteCsv;
         file.close();
         return crow::response(200, crow::json::wvalue({{"mensagem", "Paciente cadastrado"}}));
+    }
+
+public:
+    static crow::response getPacientes()
+    {
+        std::ifstream file("/app/dados/pacientes.txt");
+        if (!file.is_open())
+            return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        std::string linha;
+        std::vector<Paciente> pacientes;
+
+        int linhas = 0;
+        while (std::getline(file, linha))
+        {
+            Paciente p;
+            std::stringstream ss(linha);
+
+            std::getline(ss, p.nome, ';');
+            std::getline(ss, p.cpf, ';');
+            std::getline(ss, p.nascimento, ';');
+            std::getline(ss, p.telefone, ';');
+            std::getline(ss, p.convenio, ';');
+
+            pacientes.push_back(p);
+            linhas++;
+        }
+        if (linhas == 0)
+            return crow::response(404, crow::json::wvalue({{"mensagem", "Nenhum paciente cadastrado"}}));
+        file.close();
+        crow::json::wvalue resposta;
+
+        for (size_t i = 0; i < pacientes.size(); ++i)
+        {
+            const auto &p = pacientes[i];
+            resposta[i]["nome"] = p.nome;
+            resposta[i]["cpf"] = p.cpf;
+            resposta[i]["nascimento"] = p.nascimento;
+            resposta[i]["telefone"] = p.telefone;
+            resposta[i]["convenio"] = p.convenio;
+        }
+
+        return crow::response(200, resposta);
     }
 };
