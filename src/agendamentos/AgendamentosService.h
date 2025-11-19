@@ -9,4 +9,5 @@ public:
     static crow::response alterarStatus(std::string status, int id);
     static crow::response buscaPorData(std::string data);
     static crow::response buscaPorCpf(std::string cpf);
+    static crow::response getAll();
 };

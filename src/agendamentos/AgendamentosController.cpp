@@ -19,6 +19,7 @@ public:
             return AgendamentosService::criarAgendamento(json);
         });
 
+        
         CROW_BP_ROUTE(bp, "/finalizar/<int>").methods(crow::HTTPMethod::Get)
         ([](int id){
             return AgendamentosService::alterarStatus("Finalizado", id);
@@ -28,23 +29,28 @@ public:
         ([](int id){
             return AgendamentosService::alterarStatus("Cancelado", id);
         });
-
+        
         CROW_BP_ROUTE(bp, "/data").methods(crow::HTTPMethod::Get)
         ([](const crow::request& req){
             auto data = req.url_params.get("data");
             if (!data)
-                return Resposta::badRequest("Parâmetro 'data' faltando");
+            return Resposta::badRequest("Parâmetro 'data' faltando");
             if (!Common::regexData(data))
-                return Resposta::badRequest("'data' deve estar no formato 'dd-mm-yyyy'");
+            return Resposta::badRequest("'data' deve estar no formato 'dd-mm-yyyy'");
             return AgendamentosService::buscaPorData(data);
         });
-
+        
         CROW_BP_ROUTE(bp, "/cpf").methods(crow::HTTPMethod::Get)
         ([](const crow::request& req){
             auto cpf = req.url_params.get("cpf");
             if (!cpf)
-                return Resposta::badRequest("Parâmetro 'cpf' faltando");
+            return Resposta::badRequest("Parâmetro 'cpf' faltando");
             return AgendamentosService::buscaPorCpf(cpf);
+        });
+        
+        CROW_BP_ROUTE(bp, "/").methods(crow::HTTPMethod::Get)
+        ([](){
+            return AgendamentosService::getAll();
         });
 
         return bp;
