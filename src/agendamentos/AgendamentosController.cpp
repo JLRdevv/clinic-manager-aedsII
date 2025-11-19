@@ -29,6 +29,16 @@ public:
             return AgendamentosService::alterarStatus("Cancelado", id);
         });
 
+        CROW_BP_ROUTE(bp, "/data").methods(crow::HTTPMethod::Get)
+        ([](const crow::request& req){
+            auto data = req.url_params.get("data");
+            if (!data)
+                return Resposta::badRequest("Parâmetro 'data' faltando");
+            if (!Common::regexData(data))
+                return Resposta::badRequest("'data' deve estar no formato 'dd-mm-yyyy'");
+            return AgendamentosService::buscaPorData(data);
+        });
+
         return bp;
     }
 };

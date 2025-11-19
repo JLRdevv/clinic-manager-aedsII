@@ -55,7 +55,7 @@ crow::response PacientesService::getPacientes()
         std::getline(ss, p.nascimento, ';');
         std::getline(ss, p.telefone, ';');
         std::getline(ss, p.convenio, ';');
-
+        
         pacientes.push_back(p);
         linhas++;
     }

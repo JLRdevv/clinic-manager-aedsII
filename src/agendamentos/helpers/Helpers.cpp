@@ -56,3 +56,22 @@ crow::json::wvalue HelpersAgendamento::struct2json(const HelpersAgendamento::Age
     json["status"] = a.status;
     return json;
 }
+
+crow::json::wvalue HelpersAgendamento::structVector2jsonArray(const std::vector<HelpersAgendamento::Agendamento> &agendamentos)
+{
+    crow::json::wvalue resposta;
+
+    for (size_t i = 0; i < agendamentos.size(); ++i)
+    {
+        const auto &a = agendamentos[i];
+        resposta[i]["id"] = a.id;
+        resposta[i]["cpf"] = a.cpf;
+        resposta[i]["data"] = a.data;
+        resposta[i]["horario"] = a.horario;
+        resposta[i]["medico"] = a.medico;
+        resposta[i]["especialidade"] = a.especialidade;
+        resposta[i]["status"] = a.status;
+    }
+
+    return resposta;
+}
