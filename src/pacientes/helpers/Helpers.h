@@ -19,4 +19,16 @@ public:
     static std::string structPcsv(const Paciente &p);
     static bool regexTelefoneECPF(std::string telefoneOuCpf);
     static bool regexData(std::string data);
+    static crow::json::wvalue json(std::string mensagem);
+};
+
+class Resposta
+{
+public:
+    static crow::response notFound(std::string mensagem);
+    static crow::response unprocessableEntity(std::string mensagem);
+    static crow::response internalServerError(std::string mensagem);
+    static crow::response forbidden(std::string mensagem);
+    static crow::response ok(std::string mensagem);
+    static crow::response created(std::string mensagem);
 };

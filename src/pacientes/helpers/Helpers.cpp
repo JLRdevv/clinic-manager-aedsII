@@ -38,3 +38,38 @@ bool Helpers::regexData(std::string data)
         return false;
     return true;
 }
+
+crow::json::wvalue Helpers::json(std::string mensagem)
+{
+    return crow::json::wvalue({{"mensagem", mensagem}});
+}
+
+crow::response Resposta::notFound(std::string mensagem)
+{
+    return crow::response(404, Helpers::json(mensagem));
+}
+
+crow::response Resposta::unprocessableEntity(std::string mensagem)
+{
+    return crow::response(422, Helpers::json(mensagem));
+}
+
+crow::response Resposta::internalServerError(std::string mensagem)
+{
+    return crow::response(500, Helpers::json(mensagem));
+}
+
+crow::response Resposta::forbidden(std::string mensagem)
+{
+    return crow::response(403, Helpers::json(mensagem));
+}
+
+crow::response Resposta::ok(std::string mensagem)
+{
+    return crow::response(200, Helpers::json(mensagem));
+}
+
+crow::response Resposta::created(std::string mensagem)
+{
+    return crow::response(201, Helpers::json(mensagem));
+}

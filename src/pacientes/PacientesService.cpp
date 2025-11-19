@@ -9,7 +9,7 @@ crow::response PacientesService::cadastrarPaciente(const crow::json::rvalue &bod
     std::fstream file("/app/dados/pacientes.txt", std::ios::in | std::ios::out | std::ios::app);
 
     if (!file.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        return Resposta::internalServerError("Erro ao abrir arquivo");
 
     std::string linha;
     int linhas = 0;
@@ -22,24 +22,24 @@ crow::response PacientesService::cadastrarPaciente(const crow::json::rvalue &bod
         std::getline(ss, cpf, ';');
 
         if (cpf == body["cpf"].s())
-            return crow::response(422, crow::json::wvalue({{"mensagem", "CPF já cadastrado"}}));
+            return Resposta::unprocessableEntity("CPF já cadastrado!");
         linhas++;
     }
     if (linhas >= 100)
-        return crow::response(403, crow::json::wvalue({{"mensagem", "Limite de 100 pacientes atingido"}}));
+        return Resposta::forbidden("Limite de 100 pacientes atingido");
 
     file.clear();
     file.seekp(0, std::ios::end);
     file << pacienteCsv;
-    file.close();
-    return crow::response(200, crow::json::wvalue({{"mensagem", "Paciente cadastrado"}}));
+    file.close(); 
+    return Resposta::created("Paciente cadastrado");
 }
 
 crow::response PacientesService::getPacientes()
 {
     std::ifstream file("/app/dados/pacientes.txt");
     if (!file.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        return Resposta::internalServerError("Erro ao abrir arquivo");
     std::string linha;
     std::vector<Helpers::Paciente> pacientes;
 
@@ -59,7 +59,7 @@ crow::response PacientesService::getPacientes()
         linhas++;
     }
     if (linhas == 0)
-        return crow::response(404, crow::json::wvalue({{"mensagem", "Nenhum paciente cadastrado"}}));
+        return Resposta::notFound("Nenhum paciente cadastrado");
     file.close();
     crow::json::wvalue resposta;
 
@@ -80,7 +80,7 @@ crow::response PacientesService::getPaciente(std::string cpf)
 {
     std::ifstream file("/app/dados/pacientes.txt");
     if (!file.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        return Resposta::internalServerError("Erro ao abrir arquivo");
     std::string linha;
 
     Helpers::Paciente paciente;
@@ -103,7 +103,7 @@ crow::response PacientesService::getPaciente(std::string cpf)
         }
     }
     if (!encontrado)
-        return crow::response(404, crow::json::wvalue({{"mensagem", "Paciente não encontrado"}}));
+        return Resposta::notFound("Paciente não encontrado");
 
     crow::json::wvalue resposta;
     resposta["nome"] = paciente.nome;
@@ -119,7 +119,7 @@ crow::response PacientesService::alterarPaciente(std::string cpf, const crow::js
 {
     std::ifstream file("/app/dados/pacientes.txt");
     if (!file.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        return Resposta::internalServerError("Erro ao abrir arquivo");
 
     std::vector<std::string> linhas;
     std::string linha;
@@ -145,24 +145,24 @@ crow::response PacientesService::alterarPaciente(std::string cpf, const crow::js
     }
     file.close();
     if (!encontrado)
-        return crow::response(404, crow::json::wvalue({{"mensagem", "Paciente não encotrado"}}));
+        return Resposta::notFound("Paciente não encontrado");
 
     std::ofstream fileSaida("/app/dados/pacientes.txt", std::ios::trunc);
     if (!fileSaida.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        Resposta::internalServerError("Erro ao abrir arquivo");
 
     for (const auto &lin : linhas)
         fileSaida << lin;
 
     fileSaida.close();
-    return crow::response(200, crow::json::wvalue({{"mensagem", "Paciente alterado"}}));
+    return Resposta::ok("Paciente alterado");
 }
 
 crow::response PacientesService::deletarPaciente(std::string cpf)
 {
     std::ifstream file("/app/dados/pacientes.txt");
     if (!file.is_open())
-        return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        Resposta::internalServerError("Erro ao abrir arquivo");
 
     std::vector<std::string> linhas;
     std::string linha;
@@ -186,7 +186,7 @@ crow::response PacientesService::deletarPaciente(std::string cpf)
     }
     file.close();
     if (!encontrado)
-        return crow::response(404, crow::json::wvalue({{"mensagem", "Paciente não encotrado"}}));
+        return Resposta::notFound("Paciente não encontrado");
 
     std::ofstream fileSaida("/app/dados/pacientes.txt", std::ios::trunc);
 
@@ -194,5 +194,5 @@ crow::response PacientesService::deletarPaciente(std::string cpf)
         fileSaida << lin << "\n";
 
     fileSaida.close();
-    return crow::response(200, crow::json::wvalue({{"mensagem", "Paciente excluido"}}));
+    return Resposta::ok("Paciente excluido");
 }
