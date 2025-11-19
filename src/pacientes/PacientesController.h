@@ -43,9 +43,9 @@ public:
         });
 
         //del
-        CROW_BP_ROUTE(bp, "/<int>").methods(crow::HTTPMethod::Delete)
-        ([](int id){
-            return crow::response(200, "placeholder");
+        CROW_BP_ROUTE(bp, "/<string>").methods(crow::HTTPMethod::Delete)
+        ([](std::string cpf){
+            return PacientesService::deletarPaciente(cpf);
         });
 
         return bp;
