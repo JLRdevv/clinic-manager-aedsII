@@ -1,4 +1,5 @@
 #include "helpers/Validacao.h"
+#include "helpers/Helpers.h"
 #include "PacientesService.h"
 
 class PacientesController {
@@ -23,13 +24,9 @@ public:
         ([](const crow::request& req){
             auto json = crow::json::load(req.body);
             if (!json)
-                return crow::response(400, crow::json::wvalue{
-                    {"mensagem", "Corpo da requisição inválido"}
-                });
+                return Resposta::badRequest("Corpo da requisição inválido");
             if (!ValidacaoPaciente::bodyCadastro(json)) {
-                return crow::response(400, crow::json::wvalue{
-                    {"mensagem", "Erro de validação"}
-                });
+                return Resposta::badRequest("Erro de validação");
             }
             return PacientesService::cadastrarPaciente(json);
         });
@@ -39,13 +36,9 @@ public:
         ([](const crow::request& req, std::string cpf){
             auto json = crow::json::load(req.body);
             if (!json)
-                return crow::response(400, crow::json::wvalue{
-                    {"mensagem", "Corpo da requisição inválido"}
-                });
+                return Resposta::badRequest("Corpo da requisição inválido");
             if (!ValidacaoPaciente::bodyPatch(json)) {
-                return crow::response(400, crow::json::wvalue{
-                    {"mensagem", "Erro de validação"}
-                });
+                return Resposta::badRequest("Erro de validação");
             }
             return PacientesService::alterarPaciente(cpf, json);
         });

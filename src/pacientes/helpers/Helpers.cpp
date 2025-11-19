@@ -64,6 +64,11 @@ crow::response Resposta::forbidden(std::string mensagem)
     return crow::response(403, Helpers::json(mensagem));
 }
 
+crow::response Resposta::badRequest(std::string mensagem)
+{
+    return crow::response(400, Helpers::json(mensagem));
+}
+
 crow::response Resposta::ok(std::string mensagem)
 {
     return crow::response(200, Helpers::json(mensagem));

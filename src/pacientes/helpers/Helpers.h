@@ -29,6 +29,7 @@ public:
     static crow::response unprocessableEntity(std::string mensagem);
     static crow::response internalServerError(std::string mensagem);
     static crow::response forbidden(std::string mensagem);
+    static crow::response badRequest(std::string mensagem);
     static crow::response ok(std::string mensagem);
     static crow::response okJson(crow::json::wvalue json);
     static crow::response created(std::string mensagem);
