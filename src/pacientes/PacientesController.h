@@ -13,6 +13,12 @@ public:
         ([](){
             return PacientesService::getPacientes();
         });
+        
+        //get especifico
+        CROW_BP_ROUTE(bp, "/<string>").methods(crow::HTTPMethod::Get)
+        ([](std::string cpf){
+            return PacientesService::getPaciente(cpf);
+        });
 
         //post
         CROW_BP_ROUTE(bp, "/").methods(crow::HTTPMethod::Post)

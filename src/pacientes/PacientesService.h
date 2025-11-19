@@ -113,4 +113,42 @@ public:
 
         return crow::response(200, resposta);
     }
+
+public:
+    static crow::response getPaciente(std::string cpf) {
+        std::ifstream file("/app/dados/pacientes.txt");
+        if (!file.is_open())
+            return crow::response(500, crow::json::wvalue({{"mensagem", "Erro ao abrir arquivo"}}));
+        std::string linha;
+
+        Paciente paciente;
+        bool encontrado = false;
+        while (std::getline(file, linha))
+        {
+            Paciente p;
+            std::stringstream ss(linha);
+
+            std::getline(ss, p.nome, ';');
+            std::getline(ss, p.cpf, ';');
+            std::getline(ss, p.nascimento, ';');
+            std::getline(ss, p.telefone, ';');
+            std::getline(ss, p.convenio, ';');
+            if (cpf == p.cpf) {
+                paciente = p;
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado)
+            return crow::response(404, crow::json::wvalue({{"mensagem", "Paciente não encontrado"}}));
+        
+        crow::json::wvalue resposta;
+        resposta["nome"] = paciente.nome;
+        resposta["cpf"] = paciente.cpf;
+        resposta["nascimento"] = paciente.nascimento;
+        resposta["telefone"] = paciente.telefone;
+        resposta["convenio"] = paciente.convenio;
+        
+        return crow::response(200, resposta);
+    }
 };
