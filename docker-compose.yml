@@ -1,8 +1,16 @@
 services:
   crow-app:
-    build: .
+    build: ./crow
     container_name: crow-container
     ports:
       - "3000:3000"
     volumes:
       - ./dados:/app/dados
+
+  node-container:
+    build: ./node
+    container_name: node-container
+    volumes:
+      - ./dados:/app/dados
+    env_file:
+      - ./node/.env
