@@ -13,5 +13,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(crow)
 
-add_executable(app src/main.cpp)
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+add_executable(app ${SOURCES})
+
 target_link_libraries(app PRIVATE Crow::Crow)

@@ -1,0 +1,25 @@
+#pragma once
+#include <string>
+#include "crow.h"
+#include <vector>
+
+class HelpersAgendamento
+{
+public:
+    struct Agendamento
+    {
+        int id;
+        std::string cpf;
+        std::string data;
+        std::string horario;
+        std::string medico;
+        std::string especialidade;
+        std::string status = "Agendado";
+    };
+    static bool regexHorario(std::string horario);
+    static Agendamento json2struct(const crow::json::rvalue &json, int id);
+    static std::string structPcsv(const Agendamento &a);
+    static crow::response createdComId(const crow::json::rvalue &json, int id);
+    static crow::json::wvalue struct2json(const Agendamento &a);
+    static crow::json::wvalue structVector2jsonArray(const std::vector<Agendamento> &agendamentos);
+};
