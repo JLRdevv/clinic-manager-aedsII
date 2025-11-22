@@ -21,25 +21,19 @@ Alguns dos requisitos técnicos foram:
 
 Clone o repositório
 ```
-
 git clone https://github.com/JLRdevv/clinic-manager-aedsII
-
 ```
 
 Entre na pasta
 ```
-
 cd clinic-manager-aedsII
-
 ```
 
 Suba o compose
 ```
-
 docker compose up
-
 ```
-> Docker engine dev estar rodando em sua máquina.
+> Docker engine deve estar rodando em sua máquina.
 
 ---
 ## Documentação
