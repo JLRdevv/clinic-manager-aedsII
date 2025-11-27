@@ -122,17 +122,3 @@ void PacientesRepository::deleteByCpf(std::string cpf, std::fstream &file)
         file << lin;
     }
 }
-
-void PacientesRepository::ponteiroInicio(std::fstream &file)
-{
-    file.clear();
-    file.seekg(0, std::ios::beg);
-    file.seekp(0, std::ios::beg);
-}
-
-void PacientesRepository::ponteiroFim(std::fstream &file)
-{
-    file.clear();
-    file.seekg(0, std::ios::end);
-    file.seekp(0, std::ios::end);
-}

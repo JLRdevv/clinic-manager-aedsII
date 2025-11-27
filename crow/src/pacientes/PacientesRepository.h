@@ -1,8 +1,9 @@
 #pragma once
 #include "helpers/HelpersPaciente.h"
+#include "../helpers/AbstractRepo.h"
 #include <optional>
 #include <vector>
-class PacientesRepository
+class PacientesRepository : public AbstractRepo
 {
 public:
     inline static std::string path = "/app/dados/pacientes.txt";
@@ -13,7 +14,4 @@ public:
     static void deleteByCpf(std::string cpf, std::fstream& file);
     static bool podeCadastrar(std::fstream& file);
     static void criar(std::string paciente, std::fstream& file);
-private:
-    static void ponteiroInicio(std::fstream& file);
-    static void ponteiroFim(std::fstream& file);
 };
