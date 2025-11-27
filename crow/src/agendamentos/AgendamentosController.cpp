@@ -13,9 +13,10 @@ public:
             auto json = crow::json::load(req.body);
             if (!json)
                 return Resposta::badRequest("Corpo da requisição inválido");
-            if (!ValidacaoAgendamento::bodyCadastro(json)) {
-                return Resposta::badRequest("Erro de validação");
-            }
+            auto validacao = ValidacaoAgendamento::bodyCadastro(json);
+            if (std::holds_alternative<std::string>(validacao)) {
+                return Resposta::badRequest(std::get<std::string>(validacao));
+            }      
             return AgendamentosService::criarAgendamento(json);
         });
 
