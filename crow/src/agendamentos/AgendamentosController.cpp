@@ -30,22 +30,22 @@ public:
             return AgendamentosService::alterarStatus("Cancelado", id);
         });
         
-        CROW_BP_ROUTE(bp, "/data").methods(crow::HTTPMethod::Get)
+        CROW_BP_ROUTE(bp, "/buscar").methods(crow::HTTPMethod::Get)
         ([](const crow::request& req){
             auto data = req.url_params.get("data");
-            if (!data)
-            return Resposta::badRequest("Parâmetro 'data' faltando");
-            if (!Common::regexData(data))
-            return Resposta::badRequest("'data' deve estar no formato 'dd-mm-yyyy'");
-            return AgendamentosService::buscaPorData(data);
-        });
-        
-        CROW_BP_ROUTE(bp, "/cpf").methods(crow::HTTPMethod::Get)
-        ([](const crow::request& req){
             auto cpf = req.url_params.get("cpf");
-            if (!cpf)
-            return Resposta::badRequest("Parâmetro 'cpf' faltando");
-            return AgendamentosService::buscaPorCpf(cpf);
+            if (!data && !cpf)
+                return Resposta::badRequest("Parâmetro 'data' ou 'cpf' faltando");
+            if (data && !Common::regexData(data))
+                return Resposta::badRequest("'data' deve estar no formato 'dd-mm-yyyy'");
+            if (cpf && !Common::regexTelefoneECPF(cpf))
+                return Resposta::badRequest("CPF inválido, deve conter 11 dígitos");
+            if (data && cpf)
+                return Resposta::badRequest("Apenas um parâmetro por vez");
+            if (data)
+                return AgendamentosService::buscaPor(AgendamentosRepository::BuscarPor::Data, data);
+            if (cpf)
+                return AgendamentosService::buscaPor(AgendamentosRepository::BuscarPor::CPF, cpf);
         });
         
         CROW_BP_ROUTE(bp, "/").methods(crow::HTTPMethod::Get)
