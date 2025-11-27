@@ -30,7 +30,7 @@ std::string HelpersAgendamento::structPcsv(const HelpersAgendamento::Agendamento
        << a.horario << ";"
        << a.medico << ";"
        << a.especialidade << ";"
-       << a.status << "\n";
+       << a.status << ";\n";
     return ss.str();
 }
 

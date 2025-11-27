@@ -15,6 +15,7 @@ public:
 
     static Paciente json2struct(const crow::json::rvalue &json, std::string cpf);
     static std::string structPcsv(const Paciente &p);
+    static crow::json::wvalue struct2json(const Paciente &p);
 };
 
 
