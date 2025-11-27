@@ -26,8 +26,9 @@ public:
             auto json = crow::json::load(req.body);
             if (!json)
                 return Resposta::badRequest("Corpo da requisição inválido");
-            if (!ValidacaoPaciente::bodyCadastro(json)) {
-                return Resposta::badRequest("Erro de validação");
+            auto validacao = ValidacaoPaciente::bodyCadastro(json);
+            if (std::holds_alternative<std::string>(validacao)) {
+                return Resposta::badRequest(std::get<std::string>(validacao));
             }
             return PacientesService::cadastrarPaciente(json);
         });
@@ -38,8 +39,9 @@ public:
             auto json = crow::json::load(req.body);
             if (!json)
                 return Resposta::badRequest("Corpo da requisição inválido");
-            if (!ValidacaoPaciente::bodyPatch(json)) {
-                return Resposta::badRequest("Erro de validação");
+            auto validacao = ValidacaoPaciente::bodyPatch(json);
+            if (std::holds_alternative<std::string>(validacao)) {
+                return Resposta::badRequest(std::get<std::string>(validacao));
             }
             return PacientesService::alterarPaciente(cpf, json);
         });

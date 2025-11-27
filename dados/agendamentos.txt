@@ -97,4 +97,4 @@
 97;61237984502;04-06-2026;15:10;Dr. Carlos Menezes;Cardiologia;Agendado
 98;97456182047;08-06-2026;08:30;Dra. Ana Moreira;Pediatria;Agendado
 99;28945761038;11-06-2026;11:55;Dr. João Silveira;Ortopedia;Agendado
-100;45089216730;15-06-2026;17:00;Dra. Marina Prado;Dermatologia;Agendado
+100;45089216730;15-06-2026;17:00;Dra. Marina Prado;Dermatologia;Cancelado;

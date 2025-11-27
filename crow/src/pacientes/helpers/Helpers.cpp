@@ -20,6 +20,17 @@ std::string HelpersPaciente::structPcsv(const HelpersPaciente::Paciente &p)
        << p.cpf << ";"
        << p.nascimento << ";"
        << p.telefone << ";"
-       << p.convenio << "\n";
+       << p.convenio << ";\n";
     return ss.str();
+}
+
+crow::json::wvalue HelpersPaciente::struct2json(const HelpersPaciente::Paciente &p)
+{
+    crow::json::wvalue json;
+    json["nome"] = p.nome;
+    json["cpf"] = p.cpf;
+    json["nascimento"] = p.nascimento;
+    json["telefone"] = p.telefone;
+    json["convenio"] = p.convenio;
+    return json;
 }
